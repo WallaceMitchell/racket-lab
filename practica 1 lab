@@ -1,0 +1,50 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname |practica 1 lab|) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp")) #f)))
+;----------------------MAS FUNCIONES----------------------
+
+(require 2htdp/image)
+
+;EJERCICIO 1
+
+(define (angosta? x) (if (<= (image-width x) (image-height x)) "Angosta" "Ancha"))
+
+(angosta? (rectangle 100 50 "outline" "red"))
+
+;EJERCICIO 2
+
+(define (angost? x) (if (< (image-width x) (image-height x)) "Angosta" (if (= (image-width x) (image-height x)) "Cuadrada" "Ancha")))
+
+(angost? (rectangle 100 1000 "solid" "blue"))
+
+;EJERCICIO 3
+
+(define (equi? x y z) (if (= x y z) "Equilatero" (if (and (not (= x y)) (not (= y z)) (not (= x z))) "Escaleno" "Isosceles"))) ;faltaria comprobar si suman 180, pero anda
+
+(equi? 60 60 60)
+
+;EJERCICIO 4
+
+(define (equi2? x y z) (if (= 180 (+ x y z)) (if (= x y z) "Equilatero" (if (and (not (= x y)) (not (= y z)) (not (= x z))) "Escaleno" "Isosceles")) "No es triangulo")) ;ahora si
+
+(equi2?  40 50 90)
+
+;EJERCICIO 5
+
+(define PC 60)
+(define PL 8)
+
+(define (monto c l) (cond [(and (>= c 5) (>= l 4)) (+ (* c (- PC (* PC (/ 15 100)))) (* l (- PL(* PL (/ 10 100)))))]
+                          [(>= c 5) (+ (* PL l) (* c (- PC (* PC (/ 15 100)))))]
+                          [(>= l 4) (+ (* c PC) (* l (- PL (* PL (/ 10 100)))))]
+                          [#true (+ (* c PC) (* l PL))]))
+
+(monto 3 6)
+
+;EJERCICIO 6
+
+
+
+
+
+
