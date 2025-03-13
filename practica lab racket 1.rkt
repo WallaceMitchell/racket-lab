@@ -176,6 +176,9 @@
 (define (vol-cube y) (* y y y))
 (define (area-cube x) (* 6 (* x x)))
 (define (metro-pie x) (* 3.28084 x))
+(define (cel-far x) (+ 32 (* x (/ 9 5))))
+(define (posible? x y z) (and (< x (+ y z)) (< y (+ x z)) (< z (+ x y))))
+(define (pitagorica? x y z) (or (= x (sqrt (+ (* y y) (* z z)))) (= y (sqrt (+ (* x x) (* z z)))) (= z (sqrt (+ (* x x) (* y y))))))
 
 ;EJERCICIO 1
 
@@ -213,3 +216,30 @@
 
 ;EJERCICIO 7
 
+(cel-far 3)
+
+;EJERCICIO 8
+
+(posible? 3 5 7)
+
+;EJERCICIO 9
+
+(pitagorica? 3 4 5)
+
+;ULTIMOS EJERCICIOS
+
+(define (suma-long x y) (+ (string-length x) (string-length y)))
+(define (comienzaA x) (string=? "A" (substring x 0 1)))
+(define (poner- s i) (string-append (substring s 0 i) "-" (substring s i (string-length s))))
+
+;EJERCICIO 0
+
+(suma-long "Hola" "Chau")
+
+;EJERCICIO 1
+
+(comienzaA "Arco")
+
+;EJERCICIO 2
+
+(poner- "Argentina" 3)
