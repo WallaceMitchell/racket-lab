@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |practica 5 parte 2|) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "elevator.rkt" "teachpack" "htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "elevator.rkt" "teachpack" "htdp")) #f)))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |practica 5 parte 2|) (read-case-sensitive #t) (teachpacks ((lib "abstraction.rkt" "teachpack" "2htdp") (lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "abstraction.rkt" "teachpack" "2htdp") (lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp")) #f)))
 (require 2htdp/image)
 (require 2htdp/universe)
 
@@ -71,9 +71,94 @@
 (define (largo l) (foldl suc 0 l))
 
 ;18)
-(define (mayores l m) ())
+(local (
+  (define M 2)
+  (define (mayores1 l) (filter (lambda (x) (> x M)) l)))
+  (mayores1 (list 1 2 3 4 5 6))
+  )
 
+;19)
+(local
+  ((define lim 3)
+   (define (largas l) (filter (lambda (x) (> (string-length x) lim)) l)))
+  (largas (list "ola" "hola" "como" "va" "vaaaa")))
 
+;20)
+(local
+  ((define m 4)
+   (define (lejos l) (filter (lambda (x) (> (distancia x) m)) l)))
+  (lejos (list (make-posn 3 5) (make-posn 1 2) (make-posn 0 1) (make-posn 5 6)))
+  )
 
+;21)
+(local
+  ((define num 10)
+   (define (sumar l) (map (lambda (x) (+ x num)) l)))
+  (sumar (list 1 2 3))
+  )
+
+;22)
+(local
+  ((define e 3)
+   (define (elevar l) (map (lambda (x) (expt x e)) l)))
+  (elevar (list 1 2 3)))
+
+;23)
+(define (sumcuad l) (foldl + 0 (map sqr l)))
+
+;24)
+(define (sumdist l) (foldl + 0 (map distancia l)))
+
+;25)
+(define (multPos l) (foldl * 1 (map (lambda (x) (if (> x 0) x 1)) l)))
+
+;26)
+(define (sumAbs l) (foldl + 0 (map abs l)))
+
+;27)
+(define (raices1 l) (map sqrt (filter (lambda (x) (>= x 0)) l)))
+
+;28)
+(define (saa l) (foldl + 0
+                       (map (lambda (x) (* (image-width x) (image-height x)))
+                            (filter (lambda (x) (> (image-width x) (image-height x)))
+                                    l))))
+
+;29)
+(define (algun-pos ll) (foldl (lambda (x y) (or x y)) #f
+                              (map (lambda (x) (if (> (foldl + 0 x) 0) #t #f)) ll)))
+
+;30)
+(define (long-lists ll) (foldl (lambda (x y) (and x y)) #t
+                               (map (lambda (x) (if (> (length x) 4)
+                                                    #t #f)) ll)))
+
+;31)
+(define (todos-true l) (foldl (lambda (x y) (and x y)) #t
+                              (filter boolean? l)))
+
+;32)
+(define-struct alumno [nombre nota faltas])
+
+(define (destacados l) (map (lambda (x) (alumno-nombre x))
+                            (filter (lambda (x) (> (alumno-nota x) 9)) l)))
+
+(define (condicion a) (cond [(>= (alumno-nota a) 8) "Promovido"]
+                            [(< (alumno-nota a) 6) "libre"]
+                            [#t "Regular"]))
+
+(define (exito l) (foldl (lambda (x y) (and x y)) #t
+                         (map (lambda (x) (if (string=? (condicion x) "libre")
+                                              #f #t)) l)))
+
+(define (faltas-regulares l) (foldl + 0
+                                    (map (lambda (x)
+                                           (if (string=? (condicion x) "Regular")
+                                           (alumno-faltas x) 0)) l)))
+
+(define (promovidos-ausentes l) (map (lambda (x) (alumno-nombre x))
+                                     (filter (lambda (x) (and
+                                              (string=? (condicion x) "Promovido")
+                                              (>= (alumno-faltas x) 3))) l)))
 
 
