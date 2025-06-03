@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |practica 5 parte 2|) (read-case-sensitive #t) (teachpacks ((lib "abstraction.rkt" "teachpack" "2htdp") (lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "abstraction.rkt" "teachpack" "2htdp") (lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp")) #f)))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |practica 5 parte 2|) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp")) #f)))
 (require 2htdp/image)
 (require 2htdp/universe)
 
@@ -80,21 +80,22 @@
 ;19)
 (local
   ((define lim 3)
-   (define (largas l) (filter (lambda (x) (> (string-length x) lim)) l)))
-  (largas (list "ola" "hola" "como" "va" "vaaaa")))
+   (define (may s) (> (string-length s) lim))
+   (define (largas l) (filter may l)))
+  (largas (list "ola" "hola" "como" "va")))
 
 ;20)
 (local
   ((define m 4)
-   (define (lejos l) (filter (lambda (x) (> (distancia x) m)) l)))
-  (lejos (list (make-posn 3 5) (make-posn 1 2) (make-posn 0 1) (make-posn 5 6)))
+   (define (maydist x) (> (distancia x) m)))
+  (filter maydist (list (make-posn 3 5) (make-posn 1 2) (make-posn 0 1) (make-posn 5 6)))
   )
 
 ;21)
 (local
   ((define num 10)
-   (define (sumar l) (map (lambda (x) (+ x num)) l)))
-  (sumar (list 1 2 3))
+   (define (sum x) (+ num x)))
+  (map sum (list 1 2 3))
   )
 
 ;22)
@@ -160,5 +161,3 @@
                                      (filter (lambda (x) (and
                                               (string=? (condicion x) "Promovido")
                                               (>= (alumno-faltas x) 3))) l)))
-
-
